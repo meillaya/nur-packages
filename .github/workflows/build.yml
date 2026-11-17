@@ -13,5 +13,9 @@ jobs:
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
-      - name: Evaluate and build
-        run: nix-build . -A hoard-artifact
+      - name: Build
+        run: nix build .#hoard-artifact
+      - name: Smoke test
+        run: |
+          ./result/bin/hoard --version
+          ./result/bin/hoard-gguf --version

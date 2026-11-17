@@ -1,15 +1,20 @@
 # nur-packages
 
-Personal [NUR](https://github.com/nix-community/NUR) packages for
+Personal [NUR](https://github.com/nix-community/NUR) repository for
 [hoard](https://github.com/meillaya/hoard).
 
-After the repository is registered in NUR, use:
+## Packages
 
-```sh
-nix shell nixpkgs#nixpkgs -c nix-shell -p nur.repos.meillaya.hoard-artifact --run hoard --version
-```
+| Attribute | Contents |
+| --- | --- |
+| `hoard-artifact` | The `hoard` artifact CLI and the `hoard-gguf` inspector. |
 
-or with flakes:
+The attribute is `hoard-artifact` because `hoard` is already used by an
+unrelated nixpkgs package. The installed binaries keep their upstream names.
+
+## Usage
+
+With the NUR flake input:
 
 ```nix
 {
@@ -19,9 +24,19 @@ or with flakes:
 ```
 
 ```nix
-nur.legacyPackages.${system}.repos.meillaya.hoard-artifact
+environment.systemPackages = [
+  nur.legacyPackages.${system}.repos.meillaya.hoard-artifact
+];
 ```
 
-The package installs the `hoard` artifact CLI and the `hoard-gguf` inspector.
-The attribute is `hoard-artifact` because `hoard` is already used by an
-unrelated nixpkgs package.
+Or build this repository directly:
+
+```sh
+nix build .#hoard-artifact
+./result/bin/hoard --version
+```
+
+## Licence
+
+The NUR packaging files in this repository are MIT licensed. The packaged
+upstream software is Apache-2.0.
